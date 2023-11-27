@@ -1,0 +1,9 @@
+{
+  "extends": "@salesforce/dev-config/tsconfig-strict-esm",
+  "compilerOptions": {
+    "declaration": false,
+    "outDir": "lib",
+    "rootDir": "src"
+  },
+  "include": ["./src/**/*.ts"]
+}
