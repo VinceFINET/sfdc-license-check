@@ -1,7 +1,7 @@
 {
   "name": "sfdc-license-check",
   "description": "Salesforce plugin that checks if licenses are still assigned after unassigning the corresponding permission set.",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "dependencies": {
     "@oclif/core": "^3.11.0",
     "@salesforce/core": "^6",
