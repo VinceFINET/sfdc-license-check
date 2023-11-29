@@ -96,8 +96,7 @@ export default class LicenseCheck extends SfCommand<LicenseCheckData[]> {
         'FROM PermissionSetAssignment ' +
         'WHERE PermissionSet.LicenseId IN (' +
         idsAsString +
-        ') ' +
-        'ORDER BY PermissionSet.LicenseId, AssigneeId'
+        ') '
     );
     this.log(`> We found: ${psAssignmentResult.totalSize} permission set assignments.`);
     this.log();
@@ -110,20 +109,19 @@ export default class LicenseCheck extends SfCommand<LicenseCheckData[]> {
         'FROM PermissionSetLicenseAssign ' +
         'WHERE PermissionSetLicenseId IN (' +
         idsAsString +
-        ') ' +
-        'ORDER BY PermissionSetLicenseId, AssigneeId'
+        ') '
     );
     this.log(`> We found: ${pslAssignmentResult.totalSize} permission set license assignments.`);
     this.log();
 
     this.log('Step #6: Get the ps license assignments (#5) without corresponding ps assignments (#4)');
     const pslAssignments = new Map<string, any>();
-    pslAssignmentResult.records.forEach((r) =>
-      pslAssignments.set(`${r['PermissionSetLicenseId']}_${r['AssigneeId']}`, r)
-    );
-    psAssignmentResult.records.forEach((r) =>
-      pslAssignments.delete(`${r['PermissionSet.LicenseId']}_${r['AssigneeId']}`)
-    );
+    pslAssignmentResult.records.forEach((psla) => {
+      pslAssignments.set(`${psla.PermissionSetLicenseId}_${psla.AssigneeId}`, psla);
+    });
+    psAssignmentResult.records.forEach((psa) => {
+      pslAssignments.delete(`${psa.PermissionSet.LicenseId}_${psa.AssigneeId}`);
+    });
     this.log(`> We found: ${pslAssignments.size} permission set license assignments that could be removed.`);
     this.log();
 
